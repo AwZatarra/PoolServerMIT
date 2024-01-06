@@ -5,6 +5,7 @@ const fs = require('lowdb/adapters/FileSync');
 const adapter = new fs('db.json');
 const db = low(adapter);
 const cors = require('cors');
+const { inspect } = require('util');
 
 // allow cross-origin resource sharing (CORS)
 app.use(cors());
@@ -20,6 +21,15 @@ app.use(express.static('public'));
 
 // init the data store
 db.defaults({ users: [] }).write();
+
+// Middleware de registro
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  console.log('Headers:', inspect(req.headers, false, 2, true));
+  console.log('Body:', inspect(req.body, false, 2, true));
+  next();
+});
+//
 
 let port = process.env.PORT || 3000;
 
