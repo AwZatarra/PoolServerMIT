@@ -26,6 +26,7 @@
   <script>
     // query server and list users
     function data() {
+      const superagent = require('superagent');
       const status = document.getElementById("status");
       const url = "/data";
       let html = "";

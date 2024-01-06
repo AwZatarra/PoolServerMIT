@@ -19,6 +19,7 @@
 
     <script>
       function add() {
+        const superagent = require('superagent');
         for (let i = 0; i < 100; i++) {
           // setup
           const firstName = faker.name.firstName();
