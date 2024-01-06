@@ -8,7 +8,7 @@ const cors = require('cors');
 const { inspect } = require('util');
 
 // allow cross-origin resource sharing (CORS)
-app.use(cors());
+// app.use(cors());
 
 // data parser - used to parse post data
 var bodyParser = require('body-parser');
