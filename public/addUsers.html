@@ -70,7 +70,47 @@
           // post use data
           // const url = 'http://138.197.111.251:3001/add';
           const url = "/add";
-          
+          // superagent
+          //   .post(url)
+          //   .send(user)
+          //   .end(function (err, res) {
+          //     if (err) {
+          //       console.log(err);
+          //     } else {
+          //       console.log(res);
+          //       if (res.statusCode === 200) {
+          //         document.getElementById("status").innerHTML = `
+          //                   <b>Response: Status Code 200.</b> The HTTP 200 OK success status response code indicates that the HTTP request has succeeded.<br>
+          //                   User: ${name}<br>
+          //                   ${new Date()}
+          //               `;
+          //       }
+          //     }
+          //   });
+          try {
+            const response =  fetch(url, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(user),
+            });
+
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            console.log( response.json());
+
+            status.innerHTML = `
+              <b>Response: Status Code ${response.status}.</b> The HTTP request has succeeded.<br>
+              User: ${name}<br>
+              ${new Date()}
+            `;
+          } catch (error) {
+            console.error('Fetch error:', error);
+            console.error('Response status:', error.response && error.response.status);
+          }
         }
       }
     </script>

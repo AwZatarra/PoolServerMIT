@@ -36,6 +36,7 @@ function data() {
         status.innerHTML = JSON.stringify(data);
     } catch (error) {
         console.error('Fetch error:', error);
+        console.error('Response status:', error.response && error.response.status);
     }
 }
 
