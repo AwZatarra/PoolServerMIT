@@ -26,40 +26,73 @@
   <script>
     // query server and list users
     function data() {
-      const superagent = require('superagent');
+      
       const status = document.getElementById("status");
       const url = "/data";
       let html = "";
 
-      superagent.get(url).end(function (err, res) {
-        if (err) {
-          console.log(err);
-        } else {
-          console.log(res);
-          html = '<div class="grid-container">';
-          res.body.forEach((user) => {
-            html += `
-                        <div class="card" style="min-width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">${user.name}</h5>
-                            <p class="card-text">
-                                DOB: ${user.dob}<br>
-                                email: ${user.email}<br>
-                                username: ${user.username}<br>
-                                password: ${user.password}<br>
-                                phone: ${user.phone}<br>
-                                streetaddress: ${user.streetaddress}<br>
-                                citystatezip: ${user.citystatezip}<br>
-                                lat/lon: ${user.latitude},${user.longitude}
-                            </p>
-                        </div>
-                        </div>
-                    `;
-          });
-          html += '</div">';
-          status.innerHTML = html;
+      // superagent.get(url).end(function (err, res) {
+      //   if (err) {
+      //     console.log(err);
+      //   } else {
+      //     console.log(res);
+      //     html = '<div class="grid-container">';
+      //     res.body.forEach((user) => {
+      //       html += `
+      //                   <div class="card" style="min-width: 18rem;">
+      //                   <div class="card-body">
+      //                       <h5 class="card-title">${user.name}</h5>
+      //                       <p class="card-text">
+      //                           DOB: ${user.dob}<br>
+      //                           email: ${user.email}<br>
+      //                           username: ${user.username}<br>
+      //                           password: ${user.password}<br>
+      //                           phone: ${user.phone}<br>
+      //                           streetaddress: ${user.streetaddress}<br>
+      //                           citystatezip: ${user.citystatezip}<br>
+      //                           lat/lon: ${user.latitude},${user.longitude}
+      //                       </p>
+      //                   </div>
+      //                   </div>
+      //               `;
+      //     });
+      //     html += '</div">';
+      //     status.innerHTML = html;
+      //   }
+      // });
+      try {
+        const response =  fetch(url);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
-      });
+
+        const users =  response.json();
+        console.log(users);
+        html = '<div class="grid-container">';
+        users.forEach((user) => {
+          html += `
+                    <div class="card" style="min-width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">${user.name}</h5>
+                        <p class="card-text">
+                            DOB: ${user.dob}<br>
+                            email: ${user.email}<br>
+                            username: ${user.username}<br>
+                            password: ${user.password}<br>
+                            phone: ${user.phone}<br>
+                            streetaddress: ${user.streetaddress}<br>
+                            citystatezip: ${user.citystatezip}<br>
+                            lat/lon: ${user.latitude},${user.longitude}
+                        </p>
+                    </div>
+                    </div>
+                `;
+        });
+        html += '</div>';
+        status.innerHTML = html;
+      } catch (error) {
+        console.error('Fetch error:', error);
+      }
     }
   </script>
 </html>

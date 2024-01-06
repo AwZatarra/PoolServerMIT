@@ -19,7 +19,7 @@
 
     <script>
       function add() {
-        const superagent = require('superagent');
+        
         for (let i = 0; i < 100; i++) {
           // setup
           const firstName = faker.name.firstName();
@@ -70,23 +70,7 @@
           // post use data
           // const url = 'http://138.197.111.251:3001/add';
           const url = "/add";
-          superagent
-            .post(url)
-            .send(user)
-            .end(function (err, res) {
-              if (err) {
-                console.log(err);
-              } else {
-                console.log(res);
-                if (res.statusCode === 200) {
-                  document.getElementById("status").innerHTML = `
-                            <b>Response: Status Code 200.</b> The HTTP 200 OK success status response code indicates that the HTTP request has succeeded.<br>
-                            User: ${name}<br>
-                            ${new Date()}
-                        `;
-                }
-              }
-            });
+          
         }
       }
     </script>

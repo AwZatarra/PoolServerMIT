@@ -10,21 +10,33 @@
 <script>
 
 function data() {
-    const superagent = require('superagent');
+    
     var status  = document.getElementById('status');
     var url = '/data';
 
-    superagent
-        .get(url)
-        .end(function(err,res){
-            if(err){
-                console.log(err);
-            }
-            else{
-                console.log(res);
-                status.innerHTML = JSON.stringify(res.body);
-            }
-        });
+    // superagent
+    //     .get(url)
+    //     .end(function(err,res){
+    //         if(err){
+    //             console.log(err);
+    //         }
+    //         else{
+    //             console.log(res);
+    //             status.innerHTML = JSON.stringify(res.body);
+    //         }
+    //     });
+    try {
+        const response =  fetch(url);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data =  response.json();
+        console.log(data);
+        status.innerHTML = JSON.stringify(data);
+    } catch (error) {
+        console.error('Fetch error:', error);
+    }
 }
 
 

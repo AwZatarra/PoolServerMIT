@@ -24,7 +24,6 @@
 
     <script>
       function add() {
-        const superagent = require('superagent');
         // setup
         const firstName = faker.name.firstName();
         const lastName = faker.name.lastName();
@@ -92,23 +91,47 @@
         // post user
         const url = "/add";
         // const url = 'http://localhost:3000/add';
-        superagent
-          .post(url)
-          .send(user)
-          .end(function (err, res) {
-            if (err) {
-              console.log(err);
-            } else {
-              console.log(res);
-              if (res.statusCode === 200) {
-                document.getElementById("status").innerHTML = `
-                        <b>Response: Status Code 200.</b> The HTTP 200 OK success status response code indicates that the HTTP request has succeeded.<br>
-                        User: ${name}<br>
-                        ${new Date()}
-                    `;
-              }
-            }
+        // superagent
+        //   .post(url)
+        //   .send(user)
+        //   .end(function (err, res) {
+        //     if (err) {
+        //       console.log(err);
+        //     } else {
+        //       console.log(res);
+        //       if (res.statusCode === 200) {
+        //         document.getElementById("status").innerHTML = `
+        //                 <b>Response: Status Code 200.</b> The HTTP 200 OK success status response code indicates that the HTTP request has succeeded.<br>
+        //                 User: ${name}<br>
+        //                 ${new Date()}
+        //             `;
+        //       }
+        //     }
+        //   });
+        try {
+          const response =  fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(user),
           });
+
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const responseData =  response.json();
+          console.log(responseData);
+
+          document.getElementById("status").innerHTML = `
+            <b>Response: Status Code ${response.status}.</b> The HTTP request has succeeded.<br>
+            User: ${name}<br>
+            ${new Date()}
+          `;
+        } catch (error) {
+          console.error('Fetch error:', error);
+        }
       }
     </script>
   </body>
